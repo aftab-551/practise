@@ -58,6 +58,7 @@ $route['user/delete/(:num)']='User/deleteUser/$1';
 $route['user/update/(:num)']='User/updateUser/$1';
 $route['registration']='User/register';
 $route['login']='User/login';
+$route['logout']='User/logout';
 $route['(:any)']='Page/index/$1';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

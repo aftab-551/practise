@@ -30,14 +30,21 @@
                         <li class="nav-item">
                             <a class="nav-link" href="<?php echo base_url().'contact';?>">CONTACT</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="<?php echo base_url().'registration';?>">REGISTRATION</a>
-                            <!-- <a class="nav-link" href="/register">REGISTRATION</a> -->
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="<?php echo base_url().'login';?>">LOGIN</a>
-                            <!-- <a class="nav-link" href="/login">LOGIN</a> -->
-                        </li>
+                        <?php if($this->session->userdata('username')): ?>
+                            <li class="nav-item">
+                            <a class="nav-link" href="<?php echo base_url().'logout';?>">LOGOUT</a>
+                            </li>
+                        <?php else: ?>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="<?php echo base_url().'registration';?>">REGISTRATION</a>
+                                <!-- <a class="nav-link" href="/register">REGISTRATION</a> -->
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="<?php echo base_url().'login';?>">LOGIN</a>
+                                <!-- <a class="nav-link" href="/login">LOGIN</a> -->
+                            </li>
+                        <?php endif; ?>
                         <!-- <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
                             <div class="dropdown-menu" aria-labelledby="dropdownId">
@@ -53,3 +60,25 @@
                 </div>
           </div>
         </nav>
+        <?php if($this->session->flashdata('success')): ?>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <div class="alert alert-success">
+                            <?php echo $this->session->flashdata('success'); ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+        <?php if($this->session->set_flashdata('error')): ?>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <div class="alert alert-success">
+                            <?php echo $this->session->flashdata('error'); ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>

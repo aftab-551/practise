@@ -6,7 +6,7 @@ class User extends CI_Controller{
         $this->load->library('form_validation');
     }
     public function insertUsers(){
-        $data=array('username'=>'aftab','email'=>'aftab551gmail.com','password'=>md5('hello'));
+        $data=array('username'=>'barakt','email'=>'barkat124gmail.com','password'=>md5('hello'));
         echo $this->User_model->insert($data);
     }
     public function getUsers(){
@@ -38,7 +38,14 @@ class User extends CI_Controller{
             if($this->_validate() == FALSE){
                 $this->_loadTemplate('registration');
             }else{
-                $this->_loadTemplate('registration');
+                $data=[
+                    'username'=> $this->input->post('username'),
+                    'email'=> $this->input->post('email'),
+                    'password'=> md5($this->input->post('password')),
+                ];
+                $user=$this->User_model->insert($data);
+                $this->session->set_flashdata('success','user successfully registered');
+                redirect('/login','refresh');
             }
             
         }else{
@@ -48,7 +55,26 @@ class User extends CI_Controller{
     }
         
     public function login(){
-        $this->_loadTemplate('login');
+        if($this->input->post()){
+            if($this->_validatelogin() === FALSE){
+                $this->_loadTemplate('login');
+            }else{
+                
+                $username= $this->input->post('username');
+                $password= $this->input->post('password');
+               
+                $user=$this->User_model->get($username,$password);
+                $this->session->userdata($user);
+                $this->session->set_flashdata('success','user successfully logged In');
+                redirect('/','refresh');
+            }
+            
+        }else{
+            $this->_loadTemplate('login');
+        }
+    }
+    public function logout(){
+        session_destroy();
     }
     private function _validate(){
       $this->form_validation->set_rules('username',"User Name","trim|required|min_length[3]|max_length[15]");
@@ -60,6 +86,15 @@ class User extends CI_Controller{
       else
         return TRUE;
     }
+    private function _validatelogin(){
+        $this->form_validation->set_rules('username',"User Name","trim|required"); 
+        $this->form_validation->set_rules('password',"Password","trim|required"); 
+        
+        if($this->form_validation->run()==FALSE)
+          return FALSE;
+        else
+          return TRUE;
+      }
     private function _loadTemplate($view){
         $this->load->view('template/header');
         $this->load->view('template/'.$view);
