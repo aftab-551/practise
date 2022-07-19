@@ -31,12 +31,12 @@
                             <a class="nav-link" href="<?php echo base_url().'contact';?>">CONTACT</a>
                         </li>
                         <li class="nav-item">
-                            <!-- <a class="nav-link" href="<?php echo base_url().'registration';?>">REGISTRATION</a> -->
-                            <a class="nav-link" href="/register">REGISTRATION</a>
+                            <a class="nav-link" href="<?php echo base_url().'registration';?>">REGISTRATION</a>
+                            <!-- <a class="nav-link" href="/register">REGISTRATION</a> -->
                         </li>
                         <li class="nav-item">
-                            <!-- <a class="nav-link" href="<?php echo base_url().'login';?>">LOGIN</a> -->
-                            <a class="nav-link" href="/login">LOGIN</a>
+                            <a class="nav-link" href="<?php echo base_url().'login';?>">LOGIN</a>
+                            <!-- <a class="nav-link" href="/login">LOGIN</a> -->
                         </li>
                         <!-- <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>

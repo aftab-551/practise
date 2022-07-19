@@ -41,8 +41,10 @@ class User extends CI_Controller{
                 $this->_loadTemplate('registration');
             }
             
+        }else{
+            $this->_loadTemplate('registration');
         }
-        // $this->_loadTemplate('registration');
+        
     }
         
     public function login(){
