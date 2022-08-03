@@ -34,6 +34,10 @@ class User extends CI_Controller{
         echo $this->db->last_query();
     } 
     public function register(){
+        if($this->session->userdata('username')){
+            $this->session->set_flashdata('success','you are already logged in');
+            redirect('/','refresh');
+        }
         if($this->input->post()){
             if($this->_validate() == FALSE){
                 $this->_loadTemplate('registration');
@@ -55,18 +59,30 @@ class User extends CI_Controller{
     }
         
     public function login(){
+        if($this->session->userdata('username')){
+            $this->session->set_flashdata('success','you are already logged in');
+            redirect('/','refresh');
+        } 
         if($this->input->post()){
             if($this->_validatelogin() === FALSE){
                 $this->_loadTemplate('login');
-            }else{
+            }else{  
+                // die("within else statement");
                 
                 $username= $this->input->post('username');
-                $password= $this->input->post('password');
-               
+                $password= md5($this->input->post('password'));
+                
                 $user=$this->User_model->get($username,$password);
-                $this->session->userdata($user);
-                $this->session->set_flashdata('success','user successfully logged In');
-                redirect('/','refresh');
+                if($user == true){
+                    $this->session->set_userdata($user);                   
+                    $this->session->set_flashdata('success','user successfully logged In');
+                    redirect('/','refresh');
+                }
+                else{
+                    $this->session->set_flashdata('error','Incorrect Username and Password');
+                    $this->_loadTemplate('login');
+                }
+                
             }
             
         }else{
@@ -75,6 +91,8 @@ class User extends CI_Controller{
     }
     public function logout(){
         session_destroy();
+        $this->session->set_flashdata('success','logged out succesfully');
+        redirect('/login','refresh');
     }
     private function _validate(){
       $this->form_validation->set_rules('username',"User Name","trim|required|min_length[3]|max_length[15]");

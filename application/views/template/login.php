@@ -11,7 +11,7 @@
                     <div class="col-md-6 col-lg-7 d-flex align-items-center">
                     <div class="card-body p-4 p-lg-5 text-black">
                     <?php echo validation_errors('<div class="alert alert-danger">','</div>'); ?>
-                    <form action="<?php echo base_url('login');?>" method="post">
+                    <form action="<?php echo base_url('User/login');?>" method="post">
 
                         <div class="d-flex align-items-center mb-3 pb-1">
                             <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
