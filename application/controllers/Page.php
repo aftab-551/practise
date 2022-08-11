@@ -21,4 +21,5 @@ class Page extends CI_Controller{
             show_404();
         }
     }
+    
 }

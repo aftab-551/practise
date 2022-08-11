@@ -1,5 +1,6 @@
 <?php
 class User extends CI_Controller{
+    private $data=array();
     public function __construct(){
         parent::__construct();
         $this->load->model('User_model');
@@ -29,7 +30,7 @@ class User extends CI_Controller{
         echo $this->db->last_query();
     }
     public function updateUser($id){
-        $data=array('email'=>'saqlain11gmail.com');
+        $data=array('email'=>'hasnain98@gmail.com');
         echo $this->User_model->update($id,$data);
         echo $this->db->last_query();
     } 
@@ -76,7 +77,8 @@ class User extends CI_Controller{
                 if($user == true){
                     $this->session->set_userdata($user);                   
                     $this->session->set_flashdata('success','user successfully logged In');
-                    redirect('/','refresh');
+                    redirect('/User/dashboard','refresh');
+
                 }
                 else{
                     $this->session->set_flashdata('error','Incorrect Username and Password');
@@ -93,6 +95,14 @@ class User extends CI_Controller{
         session_destroy();
         $this->session->set_flashdata('success','logged out succesfully');
         redirect('/login','refresh');
+    }
+    public function dashboard(){
+        if(! $this->session->userdata('username')){
+            $this->session->set_flashdata('error','you need to be loggin to access the page');
+            redirect('/login','refresh');
+        }
+        $this->data['posts']=$this->User_model->getuserposts('posts',$this->session->userdata('id'));
+        $this->_loadTemplate('dashboard');
     }
     private function _validate(){
       $this->form_validation->set_rules('username',"User Name","trim|required|min_length[3]|max_length[15]");
@@ -115,7 +125,7 @@ class User extends CI_Controller{
       }
     private function _loadTemplate($view){
         $this->load->view('template/header');
-        $this->load->view('template/'.$view);
+        $this->load->view('template/'.$view,$this->data);
         $this->load->view('template/footer');
     }
 }

@@ -27,7 +27,7 @@ class User_Model extends CI_Model{
         }
     }
     public function get($username,$password){
-        $this->db->select('username,email');
+        $this->db->select('id,username,email');
         $this->db->where('username',$username);
         $this->db->where('password',$password);
         return $this->db->get('users')->row_array();
@@ -43,6 +43,10 @@ class User_Model extends CI_Model{
     public function delete($id){
         $this->db->where('id',$id);
         return $this->db->delete('users');
+    }
+    public function getuserposts($table,$userid){
+        $this->db->where('user_id',$userid);
+        return $this->db->get($table)->result();
     }
 
 }

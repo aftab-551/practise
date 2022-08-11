@@ -6,7 +6,11 @@
         <p><strong>Created at:</strong><span class="small"><?php echo $post->created_at; ?></span>
         <strong>Updated at at:</strong><span class="small"><?php echo $post->updated_at; ?></span>
         </p>
-        <p><a href="<?php echo base_url('/post/edit/'.$post->id); ?>" class="btn btn-primary">edit</a> | <a href="<?php echo base_url('/post/delete/'.$post->id); ?>" class="btn btn-danger">delete</a> </p>
+
+        <?php if($this->session->userdata('id') ===  $post->user_id): ?>
+            <p><a href="<?php echo base_url('/post/edit/'.$post->id); ?>" class="btn btn-primary">edit</a> | 
+            <a href="<?php echo base_url('/post/delete/'.$post->id); ?>" class="btn btn-danger">delete</a> </p>
+        <?php endif; ?>
       
 
     </div>

@@ -14,11 +14,19 @@ class Post extends CI_Controller{
         $this->load->view('template/footer');
     }
     public function create(){
+        if(! $this->session->userdata('username')){
+            $this->session->set_flashdata('error','you need to be loggin to access the page');
+            redirect('/login','refresh');
+        }
         $this->load->view('template/header'); 
         $this->load->view('posts/create');
         $this->load->view('template/footer');
     }
     public function save(){
+        if(! $this->session->userdata('username')){
+            $this->session->set_flashdata('error','you need to be loggin to access the page');
+            redirect('/login','refresh');
+        }
         $this->form_validation->set_rules('title','Title','trim|required|min_length[5]|max_length[20]');
         $this->form_validation->set_rules('body','Body','trim|required|min_length[15]|max_length[100]');
         if($this->form_validation->run()==false){
@@ -39,6 +47,10 @@ class Post extends CI_Controller{
                 
     }
     public function edit($id){
+        if(! $this->session->userdata('username')){
+            $this->session->set_flashdata('error','you need to be loggin to access the page');
+            redirect('/login','refresh');
+        }
         $data['post']=$this->Crud_Model->get('posts',$id);
         if($this->input->post()){
             $this->form_validation->set_rules('title','Title','trim|required|min_length[5]|max_length[20]');
@@ -68,6 +80,10 @@ class Post extends CI_Controller{
         }
     }
     public function delete($id){
+        if(! $this->session->userdata('username')){
+            $this->session->set_flashdata('error','you need to be loggin to access the page');
+            redirect('/login','refresh');
+        }
         $deleted=$this->Crud_Model->delete('posts',$id);
         if($deleted){
             echo "post deleted successfully";

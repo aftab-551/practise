@@ -31,27 +31,27 @@
                             <a class="nav-link" href="<?php echo base_url().'contact';?>">CONTACT</a>
                         </li>
                         <?php if($this->session->userdata('username')): ?>
-                            <li class="nav-item">
-                            <a class="nav-link" href="User/logout">LOGOUT</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo $this->session->userdata('username'); ?></a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownId">
+                                        <a class="dropdown-item" href="<?php echo base_url('User/dashboard'); ?>">dashboard</a>
+                                        <a class="dropdown-item" href="#">edit profile</a>
+                                        <a class="dropdown-item" href="<?php echo base_url().'logout';?>">logout</a>
+                                    </div>
                             </li>
+                            
                         <?php else: ?>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="User/register">REGISTRATION</a>
+                                <a class="nav-link" href="<?php echo base_url().'registration';?>">REGISTRATION</a>
                                 <!-- <a class="nav-link" href="/register">REGISTRATION</a> -->
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="User/login">LOGIN</a>
+                                <a class="nav-link" href="<?php echo base_url().'login';?>">LOGIN</a>
                                 <!-- <a class="nav-link" href="/login">LOGIN</a> -->
                             </li>
                         <?php endif; ?>
-                        <!-- <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownId">
-                                <a class="dropdown-item" href="#">Action 1</a>
-                                <a class="dropdown-item" href="#">Action 2</a>
-                            </div>
-                        </li> -->
+                        
                     </ul>
                     <form class="d-flex my-2 my-lg-0">
                         <input class="form-control me-sm-2" type="text" placeholder="Search">
