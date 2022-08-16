@@ -35,7 +35,7 @@
                                 <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo $this->session->userdata('username'); ?></a>
                                     <div class="dropdown-menu" aria-labelledby="dropdownId">
                                         <a class="dropdown-item" href="<?php echo base_url('User/dashboard'); ?>">dashboard</a>
-                                        <a class="dropdown-item" href="#">edit profile</a>
+                                        <a class="dropdown-item" href="<?php echo base_url('User/editprofile'); ?>">edit profile</a>
                                         <a class="dropdown-item" href="<?php echo base_url().'logout';?>">logout</a>
                                     </div>
                             </li>

@@ -10,21 +10,10 @@ class User_Model extends CI_Model{
     public function getAll(){
         return $this->db->get('users')->result();
     }
-    public function login($username, $password, $table) {
-        if($username != '') {
-            $where = array('username' => $username, 'password' => $password);
-        }
-        else {
-            $where = array('id' => $student_id, 'password' => $password);
-        }
-        
-        $query = $this->db->get_where($table, $where);
-        // $query = $this->db->where(['username' => $username, 'password' => $password])->get('users');
-        if ($query->num_rows()) {
-            return true;
-        } else {
-            return false;
-        }
+    public function get_user($id) {
+        $this->db->where('id',$id);
+        return $this->db->get('users')->row();
+
     }
     public function get($username,$password){
         $this->db->select('id,username,email');
@@ -35,6 +24,10 @@ class User_Model extends CI_Model{
     public function getuser($username,$password){
         $this->db->where('username',$username);
         return $this->db->get('users')->row();
+    }
+    public function updatePassword($id,$data){
+        $this->db->where('id',$id);
+        return $this->db->update('users',$data);
     }
     public function update($id,$data){
         $this->db->where('id',$id);
@@ -48,5 +41,6 @@ class User_Model extends CI_Model{
         $this->db->where('user_id',$userid);
         return $this->db->get($table)->result();
     }
+
 
 }

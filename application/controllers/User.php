@@ -57,8 +57,7 @@ class User extends CI_Controller{
             $this->_loadTemplate('registration');
         }
         
-    }
-        
+    }     
     public function login(){
         if($this->session->userdata('username')){
             $this->session->set_flashdata('success','you are already logged in');
@@ -104,6 +103,29 @@ class User extends CI_Controller{
         $this->data['posts']=$this->User_model->getuserposts('posts',$this->session->userdata('id'));
         $this->_loadTemplate('dashboard');
     }
+    public function editprofile(){
+            if($this->input->post()){
+                if($this->_validateprofile() === FALSE){
+                    $this->_loadTemplate('editProfile');
+                    
+                }
+                else{
+                    
+                    $user=$this->User_model->get_user($id);
+                    $newpass=md5($this->input->post('newpassword'));
+                    $id=$this->session->userdata('id');
+                    $this->User_model->updatePassword($id,array('password'=>$newpass));
+                    redirect('/logout','refresh');
+
+                }
+
+            }
+            else{
+                $this->_loadTemplate('editProfile');
+            }
+        }
+
+
     private function _validate(){
       $this->form_validation->set_rules('username',"User Name","trim|required|min_length[3]|max_length[15]");
       $this->form_validation->set_rules('email',"Email","trim|required|is_unique[users.email]|valid_email"); 
@@ -123,9 +145,40 @@ class User extends CI_Controller{
         else
           return TRUE;
       }
+      private function _validateprofile(){
+        $this->form_validation->set_rules('oldpassword',"oldpassword","callback_password_check"); 
+        $this->form_validation->set_rules('newpassword',"newPassword","trim|required|min_length[3]"); 
+        $this->form_validation->set_rules('confpassword',"confpassword","trim|required|matches[newpassword]");
+        if($this->form_validation->run()==FALSE){
+          return FALSE;
+          
+        }
+        else{
+            
+            return TRUE;    
+        }    
+            
+      }
+      
+      public function password_check($oldpassword){
+          $id=$this->session->userdata('id');
+          $user=$this->User_model->get_user($id);
+        //   var_dump($user->password);
+          if($user->password !== md5($oldpassword)){
+            $this->form_validation->set_message('password_check', 'The {field} does not match');
+            
+            return FALSE;
+
+          }
+          else{
+            
+              return TRUE;
+          }
+      }
     private function _loadTemplate($view){
         $this->load->view('template/header');
         $this->load->view('template/'.$view,$this->data);
         $this->load->view('template/footer');
     }
+    
 }
