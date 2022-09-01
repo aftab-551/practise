@@ -24,10 +24,12 @@ class User extends CI_Controller{
         echo "<pre>"; print_r($user);
         echo $this->db->last_query();
     }
+   
     public function deleteUser($id){
         $user=$this->User_model->delete($id);
         echo "<pre>"; print_r($user);
         echo $this->db->last_query();
+
     }
     public function updateUser($id){
         $data=array('email'=>'hasnain98@gmail.com');

@@ -51,6 +51,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['default_controller'] = 'Page';
 $route['post']='post/index';
+$route['student']='student/insertstudent';
+$route['loads']='student/loads';
+$route['marks']='student/marks';
 $route['user']='User/insertUsers';
 $route['user/all']='User/getUsers';
 $route['user/(:num)']='User/getUser/$1';
@@ -59,6 +62,7 @@ $route['user/update/(:num)']='User/updateUser/$1';
 $route['registration']='User/register';
 $route['login']='User/login';
 $route['logout']='User/logout';
+
 $route['(:any)']='Page/index/$1';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
