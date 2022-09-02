@@ -6,10 +6,6 @@ class student extends CI_Controller{
         $this->load->model('student_model');
         $this->load->library('form_validation');
     }
-    public function insertstudent(){
-        $data=array('student_name'=>'barkat','roll_no'=>'14','physics'=>'55.0','physics_grade'=>'F','chemistry'=>'70.00','chemistry_grade'=>'B','math'=>'85.87','math_grade'=>'A');
-        echo $this->student_model->insert($data);
-    }
     public function grade($number){
         if($number<50){
             return("F");
@@ -69,6 +65,9 @@ class student extends CI_Controller{
             $this->_loadTemplate('marks');
         }
         
+    }
+    public function result(){
+        $this->_loadTemplate('result');
     }
     private function _validatemarks(){
         $this->form_validation->set_rules('subjectid',"subject id","trim|required");
