@@ -1,6 +1,8 @@
 <?php
 class student extends CI_Controller{
     private $data=array();
+    private $total=0;
+    private $gtotal=0;
     public function __construct(){
         parent::__construct();
         $this->load->model('student_model');
@@ -34,15 +36,19 @@ class student extends CI_Controller{
         $this->load->view('template/footer');
     }
     public function marks(){
+        $total=0;
+        $gtotal=0;
         if(! $this->session->userdata('username')){
             $this->session->set_flashdata('error','you need to be loggin to access the page');
             redirect('/login','refresh');
         }
         if($this->input->post()){
+            
             // var_dump("aftab");
             if($this->_validatemarks() == FALSE){
                 $this->_loadTemplate('marks');
             }else{
+                
                 $data=[
                     'subject_id'=> $this->input->post('subjectid'),
                     'student_id'=> $this->input->post('studentid'),
@@ -55,7 +61,15 @@ class student extends CI_Controller{
                     'total'=> $this->input->post('midTM')+$this->input->post('sessionalTM')+$this->input->post('finalTM'),
                     'OM'=> $this->input->post('finalOM')+$this->input->post('sessionalOM')+$this->input->post('midOM'),
                 ];
+                $id=$this->input->post('studentid');
+                $detail= $this->student_model->get($id);
+                $detail->grandtotal += $this->input->post('midTM')+$this->input->post('sessionalTM')+$this->input->post('finalTM');
+                $detail->obtaintotal += $this->input->post('finalOM')+$this->input->post('sessionalOM')+$this->input->post('midOM');
+                var_dump($toal,$gtotal);
+                $data2=['grandtotal'=>$detail->grandtotal,
+                'obtaintotal'=>$detail->obtaintotal,];
                 $student=$this->student_model->insert($data);
+                $student2=$this->student_model->inserttotal($id,$data2);
                 $this->session->set_flashdata('success','marks successfully entered');
                 redirect('/marks','refresh');
             }
@@ -65,6 +79,23 @@ class student extends CI_Controller{
             $this->_loadTemplate('marks');
         }
         
+    }
+    public function cms(){
+        if($this->input->post()){
+            $cms=$this->input->post('cms');
+            $result['data']=$this->student_model->show($cms);
+            // echo $data->result()->name;
+            $this->load->view('template/header');
+            $this->load->view('students/result',$result);
+            $this->load->view('template/footer');
+        }
+        else{
+            $this->_loadTemplate('cms');
+        }
+    }
+    public function dummy(){
+        $result['student']=$this->student_model->show('1');
+        echo $student->id;
     }
     public function result(){
         $this->_loadTemplate('result');
